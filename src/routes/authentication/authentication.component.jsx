@@ -10,9 +10,11 @@ import{
 import { async } from '@firebase/util';
 
 import SignUpForm from '../../components/sign-up-form/sign-up-form.component';
+import SignInForm from '../../components/sign-in-form/sign-in-form.component';
+import './authentication.styles.scss';
 
 
-const SignIn = () => {
+const Authentication = () => {
 
     useEffect(() => {
         // wrap your async call here
@@ -29,26 +31,28 @@ const SignIn = () => {
         getRedirectResults();
       }, []);// the ,[] lets the use effect know we need to run it once when mounting
     
-    const logGoogleUser = async () => {
-        const {user} = await signInWithGooglePopup();
-        const userDocRef = await createUserDocumentFromAuth(user);
-    };
+  
 
 
 
 
     return (
-        <div> 
-            <h1>Sign in page</h1>
-            <button onClick={logGoogleUser}>Sign in with google popup</button>
-            <button onClick={signInWithGoogleRedirect}>Sign in with google redirect</button>
+        <div className='authentication-container'> 
+            
+            
+            <SignInForm></SignInForm>
             <SignUpForm></SignUpForm>
+      
+            <div> 
+                <button className='googleRedirect' onClick={signInWithGoogleRedirect}>Sign in with google redirect</button>
+            </div>
         </div> // there is an issue here
             //when it redirects the app remounts and all states are lost since we went away from the url
             //so we need a way to redirect while still being on our app so we use useEffect that is imported.
+           
 
     );
 
 };
 
-export default SignIn;
+export default Authentication;

@@ -1,5 +1,5 @@
 import { async } from "@firebase/util";
-import { useState } from "react";
+import { useState,useContext } from "react";
 import { 
     createAuthUserWithEmailAndPassword,
     createUserDocumentFromAuth,
@@ -15,11 +15,14 @@ const defaultFormFields = {
 }
 import './sign-in-form.styles.scss';
 import Button from '../button/button.component.jsx';
+import { UserContext } from "../../contexts/user.context";
 
 const SignInForm = () => {
 
     const[formFields,setFormFields] = useState(defaultFormFields);
     const {email,password,confirmPassword} = formFields;
+
+    const {setCurrentUser}=useContext(UserContext); // we brought in our context to be used
 
     const resetFormFields = () => {
         setFormFields(defaultFormFields);
@@ -28,10 +31,13 @@ const SignInForm = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try{
-            const response =  await signInAuthUserWithEmailAndPassword(
-                email,
-                password)
+            const {user} =  await signInAuthUserWithEmailAndPassword(
+                    email,
+                    password
+                );
+                setCurrentUser(user)
             resetFormFields();
+
         }catch(error){
             switch(error.code){
                 case 'auth/wrong-password':

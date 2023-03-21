@@ -1,7 +1,7 @@
 import {Outlet,Link} from 'react-router-dom';
 import { Fragment,useContext } from 'react';
 import { ReactComponent as CrownLogo } from '../../assets/crown.svg';
-import './navigation.styles.scss';
+import  {NavigationContainer,NavLinks,NavLink,LogoContainer} from './navigation.styles.jsx';
 import { UserContext } from '../../contexts/user.context';
 import { signOutUser } from '../../utils/firebase/firebase.utils';
 import CartIcon from '../../components/cart-icon/cart-icon.component';
@@ -9,40 +9,47 @@ import CartDropdown from '../../components/cart-dropdown/cart-dropdown.component
 import { CartContext } from '../../contexts/cart.context';
 
 
+
 const Navigation = () => {
     //we have a current user variable now that has the current user once they were signed in
-    const {currentUser} = useContext(UserContext);
+    const {currentUser, setCurrentUser} = useContext(UserContext);
     const {isCartOpen} = useContext(CartContext);
   
+    const signOutHandler =async () => {
+        await signOutUser();
+        setCurrentUser(null);
+    }
+
+
     return (
     <Fragment> {/*this is if you dont want to supply a top level tag*/}
-        <div className='navigation'>
+        <NavigationContainer>
            
-            <Link className='logo-container' to='/'>
+            <LogoContainer to='/'>
                 <CrownLogo className='logo'></CrownLogo>
-            </Link>
+            </LogoContainer>
 
-            <div className='nav-links-container'>
-                <Link className='nav-link' to='/shop'>
+            <NavLinks>
+                <NavLink to='/shop'>
                     SHOP
-                </Link>
+                </NavLink>
                 {/* when there is a current a user i want you to present a different link  */}
                 {
                     currentUser ? (
-                        <span className='nav-link' onClick={signOutHandler}>SIGN OUT</span>
+                        <NavLink as='span' onClick={signOutHandler}>SIGN OUT</NavLink>
                     ) : // IF NO CURRENT USER
                     ( 
-                        <Link className='nav-link' to='/auth'>
+                        <NavLink to='/auth'>
                             Sign In
-                        </Link>
+                        </NavLink>
                     )
                 }
                 <CartIcon></CartIcon>
                
-            </div>
+            </NavLinks>
              {/* truthy value if both are true components are always true return the last thing  */}
                 {isCartOpen && <CartDropdown></CartDropdown>}
-        </div>
+        </NavigationContainer>
         <Outlet />
     </Fragment>
     

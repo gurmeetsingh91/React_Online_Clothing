@@ -16,7 +16,8 @@ const App = () => {
     <Routes>
       <Route path='/' element={<Navigation />} >
         <Route index element ={<Home />} />
-        <Route path='shop' element ={<Shop />} />
+        {/* this shop is a nested route saying go to any thing hat matches shop */}
+        <Route path='shop/*' element ={<Shop />} />
         <Route path='auth' element ={<Authentication />} />
         <Route path='checkout' element ={<Checkout />} />
       </Route>

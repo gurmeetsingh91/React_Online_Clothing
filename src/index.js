@@ -8,7 +8,7 @@ import { UserProvider } from './contexts/user.context';
 
 import reportWebVitals from './reportWebVitals';
 import {BrowserRouter} from 'react-router-dom'
-import { ProductsProvider } from './contexts/products.context';
+import { CategoriesProvider } from './contexts/categories.context';
 import { CartProvider } from './contexts/cart.context';
 
 import './index.scss';
@@ -21,11 +21,11 @@ root.render(
 
     {/* now any compoenent wrapped around this context can access the default value. */}
     <UserProvider>
-      <ProductsProvider>
+      <CategoriesProvider>
         <CartProvider>
           <App />
         </CartProvider>
-      </ProductsProvider>
+      </CategoriesProvider>
     </UserProvider>
   
     </BrowserRouter>

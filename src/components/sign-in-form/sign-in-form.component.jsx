@@ -1,7 +1,7 @@
 import { async } from "@firebase/util";
-import { useState,useContext } from "react";
+import { useState } from "react";
 import { 
-    createAuthUserWithEmailAndPassword,
+    
     createUserDocumentFromAuth,
     signInWithGooglePopup,
     signInAuthUserWithEmailAndPassword
@@ -14,7 +14,7 @@ const defaultFormFields = {
    
 }
 import './sign-in-form.styles.scss';
-import Button from '../button/button.component.jsx';
+import Button,{BUTTON_TYPE_CLASSES} from '../button/button.component.jsx';
 import { UserContext } from "../../contexts/user.context";
 
 const SignInForm = () => {
@@ -22,7 +22,7 @@ const SignInForm = () => {
     const[formFields,setFormFields] = useState(defaultFormFields);
     const {email,password,confirmPassword} = formFields;
 
-    const {setCurrentUser}=useContext(UserContext); // we brought in our context to be used
+
 
     const resetFormFields = () => {
         setFormFields(defaultFormFields);
@@ -52,8 +52,8 @@ const SignInForm = () => {
         };
     };
     const logGoogleUser = async () => {
-        const {user} = await signInWithGooglePopup();
-        await createUserDocumentFromAuth(user);
+        await signInWithGooglePopup();
+        
     };
 
     const handleChange = (event) => {
@@ -94,7 +94,7 @@ const SignInForm = () => {
                 
                 <div className="buttons-container">
                     <Button type='submit'>Sign in </Button>
-                    <Button type='button' buttonType= 'google' onClick={logGoogleUser}>Google Sign in</Button>
+                    <Button type='button' buttonType={BUTTON_TYPE_CLASSES.google} onClick={logGoogleUser}>Google Sign in</Button>
                 </div>
             </form>
         </div>

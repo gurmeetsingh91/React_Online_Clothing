@@ -1,34 +1,30 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.scss';
-
-
 import App from './App';
-import { UserProvider } from './contexts/user.context';
-
 import reportWebVitals from './reportWebVitals';
+
 import {BrowserRouter} from 'react-router-dom'
 import { CategoriesProvider } from './contexts/categories.context';
 import { CartProvider } from './contexts/cart.context';
+import { store } from './store/store';
+import { Provider } from 'react-redux';
 
 import './index.scss';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-    <BrowserRouter>
-
-    {/* now any compoenent wrapped around this context can access the default value. */}
-    <UserProvider>
-      <CategoriesProvider>
-        <CartProvider>
-          <App />
-        </CartProvider>
-      </CategoriesProvider>
-    </UserProvider>
-  
-    </BrowserRouter>
+ <React.StrictMode>
+    <Provider store={store}>
+      <BrowserRouter>
+        <CategoriesProvider>
+          <CartProvider>
+            <App />
+          </CartProvider>
+        </CategoriesProvider>
+      </BrowserRouter>
+    </Provider>
   </React.StrictMode>
 );
 
